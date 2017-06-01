@@ -28,6 +28,13 @@ Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.
 
 Getting Started
 ---------------
+Add your credentials in the config/application.yml file:
+
+mysql_username: 'Your_username'
+mysql_password: 'Your_password'
+
+skroutz_id:     'Your_id'
+skroutz_secret: 'Your_secret'
 
 Documentation and Support
 -------------------------
