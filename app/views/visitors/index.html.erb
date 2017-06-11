@@ -13,6 +13,10 @@
                 <% end %>
             </p>
 
+            <p>
+                <%= link_to("My lists", user_lists_path(current_user)) if user_signed_in? %>
+            </p>
+
 
         </div>
     </div>
