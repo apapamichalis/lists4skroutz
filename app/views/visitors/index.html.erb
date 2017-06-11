@@ -5,10 +5,15 @@
         <div class="col-lg-12 text-center">
             <h1>Welcome! This is a Bootstrap Starter Template</h1>
             <p class="lead">A Bootstrap HTML starter template from <a href="http://startbootstrap.com/">startbootstrap.com</a>.</p>
-            <ul class="list-unstyled">
-                <li>Bootstrap</li>
-                <li>jQuery</li>
-            </ul>
+            
+            <p> 
+                <%= form_tag(sku_find_path) do %>
+                <%= text_field_tag :search, params[:search], placeholder: "Find product" %>
+                <%= submit_tag "Find" %>
+                <% end %>
+            </p>
+
+
         </div>
     </div>
     <!-- /.row -->
