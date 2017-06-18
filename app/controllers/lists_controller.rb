@@ -25,10 +25,13 @@ class ListsController < ApplicationController
   # POST /lists.json
   def create
     @list = List.new(list_params)
+    user = current_user
+    @list.user = user if (current_user && User.find(current_user.id))
+
 
     respond_to do |format|
       if @list.save
-        format.html { redirect_to @list, notice: 'List was successfully created.' }
+        format.html { redirect_to user_list_path(@list, user_id: @list.user.id), notice: 'List was successfully created.' }
         format.json { render :show, status: :created, location: @list }
       else
         format.html { render :new }
@@ -42,7 +45,7 @@ class ListsController < ApplicationController
   def update
     respond_to do |format|
       if @list.update(list_params)
-        format.html { redirect_to @list, notice: 'List was successfully updated.' }
+        format.html { redirect_to user_list_path(@list, user_id: @list.user.id), notice: 'List was successfully updated.' }
         format.json { render :show, status: :ok, location: @list }
       else
         format.html { render :edit }
@@ -56,7 +59,7 @@ class ListsController < ApplicationController
   def destroy
     @list.destroy
     respond_to do |format|
-      format.html { redirect_to lists_url, notice: 'List was successfully destroyed.' }
+      format.html { redirect_to user_lists_url, notice: 'List was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +72,6 @@ class ListsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def list_params
-      params.fetch(:list, {})
+      params.fetch(:list, {}).permit(:name, :user_id, :active)
     end
 end
