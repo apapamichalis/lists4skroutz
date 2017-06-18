@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<h1>
+  <%= @list.name %>
+  <br>
+</h1>
+<h4>
+  <em> list is <%= @list.active? ? " active" : " inactive" %> </em>
+</h4>
+
+<%= link_to 'Edit', edit_user_list_path(@list) %> |
+<%= link_to 'Back', user_lists_path %>
