@@ -317,7 +317,7 @@ DEPENDENCIES
   rb-fchange
   rb-fsevent
   rb-inotify
-  rspec-rails
+  rspec-rails (~> 3.6.0)
   sass-rails (~> 5.0)
   selenium-webdriver
   skroutz (~> 0.2.0)
@@ -334,4 +334,4 @@ RUBY VERSION
    ruby 2.4.0p0
 
 BUNDLED WITH
-   1.15.0
+   1.15.1
