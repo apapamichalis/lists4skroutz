@@ -1,6 +1,8 @@
 FactoryGirl.define do
   factory :list do
-    name "First List"    
+    sequence(:name) { |n| "List #{n}" }
+    active true
+    association :user
   end
 end
 
