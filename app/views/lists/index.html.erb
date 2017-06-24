@@ -23,7 +23,17 @@
               <td><%= list.active ? "active": "inacative" %> </td>
               <td><%= link_to 'Show', user_list_path(id: list.id) %></td>
               <td><%= link_to 'Edit', edit_user_list_path(id: list.id) %></td>
+              <td><% if current_user.likes?(list) %>
+                    <%= link_to 'Unlike', user_list_vote_path(list_id: list.id), method: :delete %> 
+                  <% end %>
+              </td>
+              <td><% if !current_user.likes?(list) %>
+                  <%= link_to 'Like', user_list_vote_path(list_id: list.id), method: :post%>
+                  <% end %> 
+              </td>
+              <td><%= list.votes.count() %> </td>
               <td><%= link_to 'Destroy', user_list_path(id: list.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              
             </tr>
           <% end %>
         </tbody>

@@ -7,4 +7,9 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8 }, on: :update, allow_blank: true
 
   has_many :lists, dependent: :destroy
+  has_many :votes, dependent: :destroy
+
+  def likes?(list)
+    list.votes.where(user_id: id).any?
+  end
 end
