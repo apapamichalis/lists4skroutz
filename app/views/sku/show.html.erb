@@ -1,3 +1,38 @@
-<%= image_tag(@sku.images(:main).values[0], alt: 'sku image' ) %>
-<p> <%= @sku.display_name %> </p>
-<p> fm <%= @sku.price_min %> &euro; </p>
+
+
+<div class='container'>
+
+
+	<div id='ProductPanel' class='panel panel-primary'>
+
+		<div class='panel-heading'>
+			
+			<button type='button' class='btn btn-default pull-right'><i class="fa fa-plus"></i></button>
+			<h3 class="animated bounce"><%= @sku.display_name %> </h3> 
+		</div>
+		<div class='panel-body'>
+			<table id='ProductDetails' class='table'>
+			  
+
+				<tr>
+				<td>
+				<%= image_tag(@sku.images(:main).values[0], alt: 'sku image' ) %>
+				</td>
+				</tr>
+				<tr>
+				<td>
+				<label >Price:   </label>
+				 <label class="animated zoomInUp"> <%= @sku.price_min %> &euro; </label>
+
+				 
+				</td>
+				</tr>  
+
+				 
+			</table>
+		</div>
+	</div>
+
+
+
+</div>
