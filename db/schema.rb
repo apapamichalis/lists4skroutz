@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622150731) do
+ActiveRecord::Schema.define(version: 20170626190631) do
+
+  create_table "listproducts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "list_id"
+    t.string  "skuid"
+    t.index ["list_id", "skuid"], name: "index_listproducts_on_list_id_and_skuid", unique: true, using: :btree
+    t.index ["list_id"], name: "index_listproducts_on_list_id", using: :btree
+  end
 
   create_table "lists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",       default: "My List"
@@ -48,6 +55,7 @@ ActiveRecord::Schema.define(version: 20170622150731) do
     t.index ["user_id"], name: "index_votes_on_user_id", using: :btree
   end
 
+  add_foreign_key "listproducts", "lists"
   add_foreign_key "lists", "users"
   add_foreign_key "votes", "lists"
   add_foreign_key "votes", "users"
