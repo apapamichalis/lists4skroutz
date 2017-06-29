@@ -8,7 +8,6 @@ RSpec.describe UsersController, type: :controller do
 
   describe "#index" do 
     context "as an authenticated user" do 
-      
       it "responds successfully" do 
         sign_in @user
         get :index

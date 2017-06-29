@@ -26,17 +26,33 @@ feature 'User edit', :devise do
     expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)
   end
 
+  # Scenario: User changes password
+  #   Given I am signed in
+  #   When I change my password
+  #   Then I see an account updated message
+  scenario 'user changes email address' do
+    user = FactoryGirl.create(:user)
+    login_as(user, :scope => :user)
+    visit edit_user_registration_path(user)
+    fill_in 'Password',              :with => 'new-super-password'
+    fill_in 'Password confirmation', :with => 'new-super-password'
+    fill_in 'Current password', :with => user.password
+    click_button 'Update'
+    txts = [I18n.t( 'devise.registrations.updated'), I18n.t( 'devise.registrations.update_needs_confirmation')]
+    expect(page).to have_content(/.*#{txts[0]}.*|.*#{txts[1]}.*/)
+  end
+
   # Scenario: User cannot edit another user's profile
   #   Given I am signed in
   #   When I try to edit another user's profile
   #   Then I see my own 'edit profile' page
-  scenario "user cannot cannot edit another user's profile", :me do
-    me = FactoryGirl.create(:user)
-    other = FactoryGirl.create(:user, email: 'other@example.com')
-    login_as(me, :scope => :user)
-    visit edit_user_registration_path(other)
+  scenario "user cannot cannot edit another user's profile", :user do
+    user       = FactoryGirl.create(:user)
+    other_user = FactoryGirl.create(:user)
+    login_as(user, :scope => :user)
+    visit edit_user_registration_path(other_user)
     expect(page).to have_content 'Edit User'
-    expect(page).to have_field('Email', with: me.email)
+    expect(page).to have_field('Email', with: user.email)
   end
 
 end

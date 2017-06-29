@@ -26,14 +26,17 @@ feature 'User profile page', :devise do
   # Scenario: User cannot see another user's profile
   #   Given I am signed in
   #   When I visit another user's profile
-  #   Then I see an 'access denied' message
+  #   Then I am redirected to the other user's lists index
+  #   And I don't see the other user's profile
   scenario "user cannot see another user's profile" do
-    me = FactoryGirl.create(:user)
-    other = FactoryGirl.create(:user, email: 'other@example.com')
-    login_as(me, :scope => :user)
+    user       = FactoryGirl.create(:user)
+    other_user = FactoryGirl.create(:user, email: 'other@example.com')
+    list       = FactoryGirl.create(:list, user: other_user)
+    login_as(user, :scope => :user)
     Capybara.current_session.driver.header 'Referer', root_path
-    visit user_path(other)
-    expect(page).to have_content 'Access denied.'
+    visit user_path(other_user)
+    expect(page).to have_content list.name
+    expect(page).not_to have_content user.name
+    expect(page).not_to have_content user.email
   end
-
 end
