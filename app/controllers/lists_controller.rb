@@ -4,12 +4,23 @@ class ListsController < ApplicationController
   # GET /lists
   # GET /lists.json
   def index
-    @lists = List.all
+    if current_user && User.find(current_user.id)
+      @user  = User.find(params[:user_id])
+      @lists = @user.lists
+    else
+      flash[:alert] = "You must sign in before you can access lists!"
+      redirect_to new_user_session_path
+    end
   end
 
   # GET /lists/1
-  # GET /lists/1.json
   def show
+    if current_user && User.find(current_user.id)
+      return
+    else
+      flash[:alert] = "You must sign in before you can access lists!"
+      redirect_to new_user_session_path
+    end
   end
 
   # GET /lists/new
@@ -24,19 +35,19 @@ class ListsController < ApplicationController
   # POST /lists
   # POST /lists.json
   def create
-    @list = List.new(list_params)
-    user = current_user
-    @list.user = user if (current_user && User.find(current_user.id))
-
-
-    respond_to do |format|
+    if current_user && User.find(current_user.id) 
+      #@list = List.new(list_params)
+      #@list.user = current_user
+      @list = current_user.lists.new(list_params)
       if @list.save
-        format.html { redirect_to user_list_path(@list, user_id: @list.user.id), notice: 'List was successfully created.' }
-        format.json { render :show, status: :created, location: @list }
+        flash[:notice] = 'List was successfully created.'
+        redirect_to user_list_path(@list, user_id: @list.user.id) 
       else
-        format.html { render :new }
-        format.json { render json: @list.errors, status: :unprocessable_entity }
+        render :new
       end
+    else
+      flash[:alert] = 'You must sign in before you can access lists!'
+      redirect_to new_user_session_path
     end
   end
 
@@ -72,6 +83,6 @@ class ListsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def list_params
-      params.fetch(:list, {}).permit(:name, :user_id, :active)
+      params.fetch(:list, {}).permit(:user_id, :name, :active)
     end
 end
