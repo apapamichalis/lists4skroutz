@@ -4,7 +4,7 @@ class ListsController < ApplicationController
   # GET /lists
   # GET /lists.json
   def index
-    if current_user && User.find(current_user.id)
+    if current_user
       @user  = User.find(params[:user_id])
       @lists = @user.lists
     else
@@ -15,7 +15,7 @@ class ListsController < ApplicationController
 
   # GET /lists/1
   def show
-    if current_user && User.find(current_user.id)
+    if current_user
       return
     else
       flash[:alert] = "You must sign in before you can access lists!"
@@ -42,7 +42,7 @@ class ListsController < ApplicationController
   # POST /lists
   # POST /lists.json
   def create
-    if current_user && User.find(current_user.id) 
+    if current_user
       @list = current_user.lists.new(list_params)
       if @list.save
         flash[:notice] = 'List was successfully created.'
