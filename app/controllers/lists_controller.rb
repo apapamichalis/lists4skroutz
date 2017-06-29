@@ -30,14 +30,19 @@ class ListsController < ApplicationController
 
   # GET /lists/1/edit
   def edit
+    if current_user
+      redirect_to root_path and return unless @list.user == current_user
+      return
+    else
+      flash[:alert] = "You must sign in before you can access lists!"
+      redirect_to new_user_session_path
+    end
   end
 
   # POST /lists
   # POST /lists.json
   def create
     if current_user && User.find(current_user.id) 
-      #@list = List.new(list_params)
-      #@list.user = current_user
       @list = current_user.lists.new(list_params)
       if @list.save
         flash[:notice] = 'List was successfully created.'
@@ -54,24 +59,30 @@ class ListsController < ApplicationController
   # PATCH/PUT /lists/1
   # PATCH/PUT /lists/1.json
   def update
-    respond_to do |format|
+    if current_user 
+      redirect_to root_path and return unless @list.user == current_user
       if @list.update(list_params)
-        format.html { redirect_to user_list_path(@list, user_id: @list.user.id), notice: 'List was successfully updated.' }
-        format.json { render :show, status: :ok, location: @list }
+        redirect_to user_list_path(@list, user_id: @list.user.id), notice: 'List was successfully updated.' 
       else
-        format.html { render :edit }
-        format.json { render json: @list.errors, status: :unprocessable_entity }
+        render :edit      
       end
+    else
+      flash[:alert] = 'You must sign in before you can access lists!'
+      redirect_to new_user_session_path
     end
   end
 
   # DELETE /lists/1
   # DELETE /lists/1.json
   def destroy
-    @list.destroy
-    respond_to do |format|
-      format.html { redirect_to user_lists_url, notice: 'List was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user
+      redirect_to root_path and return unless @list.user == current_user
+      @list.destroy
+      flash[:notice] = 'List was successfully destroyed.' 
+      redirect_to user_lists_url 
+    else
+      flash[:alert] = 'You must sign in before you can access lists!'
+      redirect_to new_user_session_path
     end
   end
 
