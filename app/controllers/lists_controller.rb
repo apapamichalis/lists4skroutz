@@ -1,89 +1,55 @@
 class ListsController < ApplicationController
   before_action :set_list, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :list_owner!, except: [:index, :show, :create]
 
-  # GET /lists
-  # GET /lists.json
+  # GET /users/1/lists
   def index
-    if current_user
-      @user  = User.find(params[:user_id])
-      @lists = @user.lists
-    else
-      flash[:alert] = "You must sign in before you can access lists!"
-      redirect_to new_user_session_path
-    end
+    @user  = User.find(params[:user_id])
+    @lists = @user.lists
   end
 
-  # GET /lists/1
+  # GET /users/1/lists/1
   def show
-    if current_user
-      return
-    else
-      flash[:alert] = "You must sign in before you can access lists!"
-      redirect_to new_user_session_path
-    end
   end
 
-  # GET /lists/new
+  # GET /users/1/lists/new
   def new
     @list = List.new
   end
 
-  # GET /lists/1/edit
+  # GET /users/1/lists/1/edit
   def edit
-    if current_user
       redirect_to root_path and return unless @list.user == current_user
-      return
-    else
-      flash[:alert] = "You must sign in before you can access lists!"
-      redirect_to new_user_session_path
-    end
   end
 
-  # POST /lists
-  # POST /lists.json
+  # POST /users/1/lists
   def create
-    if current_user
-      @list = current_user.lists.new(list_params)
-      if @list.save
-        flash[:notice] = 'List was successfully created.'
-        redirect_to user_list_path(@list, user_id: @list.user.id) 
-      else
-        render :new
-      end
+    @list = current_user.lists.new(list_params)
+    if @list.save
+      flash[:notice] = 'List was successfully created.'
+      redirect_to user_list_path(@list, user_id: @list.user.id) 
     else
-      flash[:alert] = 'You must sign in before you can access lists!'
-      redirect_to new_user_session_path
+      render :new
     end
   end
 
-  # PATCH/PUT /lists/1
-  # PATCH/PUT /lists/1.json
+  # PATCH/PUT users/1/lists/1
   def update
-    if current_user 
-      redirect_to root_path and return unless @list.user == current_user
-      if @list.update(list_params)
-        redirect_to user_list_path(@list, user_id: @list.user.id), notice: 'List was successfully updated.' 
-      else
-        render :edit      
-      end
+    redirect_to root_path and return unless @list.user == current_user
+    if @list.update(list_params)
+      redirect_to user_list_path(@list, user_id: @list.user.id), notice: 'List was successfully updated.' 
     else
-      flash[:alert] = 'You must sign in before you can access lists!'
-      redirect_to new_user_session_path
+      render :edit      
     end
   end
 
-  # DELETE /lists/1
-  # DELETE /lists/1.json
+  # DELETE /users/1/lists/1
   def destroy
-    if current_user
-      redirect_to root_path and return unless @list.user == current_user
-      @list.destroy
-      flash[:notice] = 'List was successfully destroyed.' 
-      redirect_to user_lists_url 
-    else
-      flash[:alert] = 'You must sign in before you can access lists!'
-      redirect_to new_user_session_path
-    end
+    redirect_to root_path and return unless @list.user == current_user
+    @list.destroy
+    flash[:notice] = 'List was successfully destroyed.' 
+    redirect_to user_lists_url 
   end
 
   private
@@ -95,5 +61,11 @@ class ListsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def list_params
       params.fetch(:list, {}).permit(:user_id, :name, :active)
+    end
+
+    def list_owner!
+      unless @list.user == current_user
+        redirect_to root_path, alert: 'You are not authorized to reach this list resource!'
+      end
     end
 end
