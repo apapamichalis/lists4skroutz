@@ -2,7 +2,6 @@ require 'rails_helper'
 
 
 RSpec.describe List, type: :model do
-
   before(:each) do 
     @user = FactoryGirl.create(:user)
     @list = @user.lists.create(name: "Test List")
@@ -21,7 +20,7 @@ RSpec.describe List, type: :model do
     expect(other_list).to be_valid
   end
 
-    it "returns the its name as a string" do 
+    it "returns its name as a string" do 
     expect(@list.name).to match "Test List"
   end
 
@@ -39,6 +38,7 @@ RSpec.describe List, type: :model do
     expect(@list.active).to match true
     @list.active = false
     @list.save
+    @list.reload
     expect(@list.active).to match false
   end
 
