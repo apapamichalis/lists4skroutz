@@ -26,8 +26,8 @@ feature 'Sign Up', :devise do
   # Scenario: Visitor cannot sign up without name
   #   Given I am not signed in
   #   When I sign up without specifying my name
-  #   Then I see an invalid name message
-  scenario 'visitor cannot sign up with invalid email address' do
+  #   Then I see name cannot be blank message
+  scenario 'visitor cannot sign up without specifying his name' do
     sign_up_with('', 'johndoe@example.com', 'please123', 'please123')
     expect(page).to have_content "Name can't be blank"
   end
@@ -67,7 +67,4 @@ feature 'Sign Up', :devise do
     sign_up_with('Jimmy', 'test@example.com', 'please123', 'mismatch')
     expect(page).to have_content "Password confirmation doesn't match"
   end
-
-
-
 end
