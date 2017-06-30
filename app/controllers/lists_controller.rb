@@ -8,7 +8,9 @@ class ListsController < ApplicationController
   # GET /users/1/lists
   def index
     @user  = User.find(params[:user_id])
-    @lists = @user.lists.order(sort_column + ' ' + sort_direction)
+    @lists = @user.lists
+      .search(params[:search])
+      .order(sort_column + ' ' + sort_direction)
   end
 
   # GET /users/1/lists/1

@@ -3,6 +3,11 @@
     <div class="col-xs-4 col-md-4">
       <h1>My Lists</h1>
 
+      <%= form_tag user_lists_path, method: 'get', class: 'lists-search' do %>
+          <%= text_field_tag :search, params[:search], placeholder: "Find list" %>
+          <%= submit_tag "Search" %>
+      <% end %>
+
       <table class="table table-hover table-stripped">
         <thead>
           <tr>
