@@ -35,10 +35,6 @@ gem 'high_voltage'
 gem 'mysql2', '~> 0.3.18'
 gem 'therubyracer', :platform=>:ruby
 group :development do
-  #gem 'better_errors'
-  #gem 'guard-bundler'
-  #gem 'guard-rails'
-  #gem 'guard-rspec'
   gem 'rails_layout'
   gem 'rb-fchange', :require=>false
   gem 'rb-fsevent', :require=>false
