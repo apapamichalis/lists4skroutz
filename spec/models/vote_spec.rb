@@ -25,7 +25,7 @@ RSpec.describe Vote, type: :model do
   it "is invalid without a user" do 
     vote = Vote.new(
       user: nil,
-      list: @lsit
+      list: @list
     )
     expect(vote).not_to be_valid
   end

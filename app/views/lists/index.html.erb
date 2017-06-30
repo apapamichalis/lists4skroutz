@@ -22,7 +22,7 @@
             <tr>
               <td><%= list.name %> </td>
               <td><%= list.active ? "active": "inacative" %> </td>
-              <td><%= list.votes_count %> </td>
+              <td><%= list.votes_count || 0 %> </td>
               <td><%= link_to 'Show', user_list_path(id: list.id) %></td>
               <td><%= link_to 'Edit', edit_user_list_path(id: list.id) if list.user == current_user %></td>
               <td><% if current_user.likes?(list) %>
@@ -33,7 +33,7 @@
                   <%= link_to 'Like', user_list_vote_path(list_id: list.id), method: :post%>
                   <% end %> 
               </td>
-              <td><%= link_to 'Destroy', user_list_path(id: list.id), method: :delete, data: { confirm: 'Are you sure?' } if list.user == current_user%></td>
+              <td><%= link_to 'Delete', user_list_path(id: list.id), method: :delete, data: { confirm: 'Are you sure?' } if list.user == current_user%></td>
             </tr>
           <% end %>
         </tbody>

@@ -5,7 +5,7 @@ Warden.test_mode!
 #   As a registered user
 #   I want to create a new list
 #   So I can do something useful with the app
-feature "AddNewList", :type => :feature do
+feature "List create", :type => :feature do
 
   # Scenario: User creates a list
   #   Given I am signed up
@@ -15,7 +15,7 @@ feature "AddNewList", :type => :feature do
   #   And I can sign in
   #   And I am redirected to the new list page
   #   And I create my new list
-  scenario "should require the user log in before adding a list" do
+  scenario "requires the user to log in before adding a list" do
     user = FactoryGirl.create(:user)
     visit new_user_list_path(user)
     expect(page).to have_content 'You need to sign in or sign up before continuing.'

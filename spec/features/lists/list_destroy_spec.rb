@@ -1,28 +1,31 @@
-# Needs feature specifications
-
-require 'support/factory_girl'
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe List do
+# Feature: Registered deletes a list he owns
+#   As a registered user
+#   I want to destroy a list
+feature "List destroy", :type => :feature do
 
-  # :user and :list declared in their respective factories
-  before(:each) do
-    @user1 = build(:user)
-    @user2 = build(:user, email:'another@email.com') 
-    @list = build(:list)
-    @list.user = @user1
-    @list.save
+  # Scenario: User deletes a list
+  #   Given I am signed up
+  #   When I visit the list page
+  #   Then I click on the delete button
+  #   And confirm my decision
+  #   And the list gets deleted
+  scenario "requires confirmation before deleting" do
+    user = FactoryGirl.create(:user)
+    list = FactoryGirl.create(:list, user: user)
+    visit root_path
+    click_link "Sign in"
+    within "#new_user" do
+      fill_in "user_email",    with: user.email
+      fill_in "user_password", with: user.password
+    end
+    click_button "Sign in"
+    click_link "My Lists"
+    expect {
+      click_link "Delete"
+    }.to change(List, :count).by(-1)
+    expect(page).to have_content 'List was successfully destroyed.', count: 1
   end
-
-  subject { @list }
-
-  pending "can be edited by its owner" do 
-    raise
-  end
-
-  pending "cannot be edited by other user (not its owner)" do 
-    raise
-  end
-
 end
