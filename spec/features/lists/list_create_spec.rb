@@ -29,6 +29,7 @@ feature "List create", :type => :feature do
       fill_in "list_name", with: 'Yet another list'
     end
     click_link_or_button 'Create List'
+    expect(page).to have_content 'List was successfully created.', count: 1
     expect(List.count).to eq(1)
     expect(List.first.name).to eq 'Yet another list'
   end
