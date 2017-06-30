@@ -6,7 +6,7 @@ class ListsController < ApplicationController
   # GET /users/1/lists
   def index
     @user  = User.find(params[:user_id])
-    @lists = @user.lists
+    @lists = @user.lists.order('created_at ASC')
   end
 
   # GET /users/1/lists/1

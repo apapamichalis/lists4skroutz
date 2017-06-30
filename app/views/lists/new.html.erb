@@ -1,25 +1,25 @@
 <h1>New List</h1>
+<div class="col-md-4">
+  <%= form_for(@list, url: user_lists_path) do |f| %>
+    <% if @list.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@list.errors.count, "error") %> prohibited this list from being saved:</h2>
 
-<%= form_for(@list, url: user_lists_path) do |f| %>
-  <% if @list.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@list.errors.count, "error") %> prohibited this list from being saved:</h2>
-
-      <ul>
-      <% @list.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <ul>
+        <% @list.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="actions">
+      <%= f.submit "Create List"%>
     </div>
   <% end %>
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, :autofocus => true, class: 'form-control' %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Create List"%>
-  </div>
-<% end %>
 
-
-<%= link_to 'Back', user_lists_path %>
+  <%= link_to 'Back', user_lists_path %>
+</div>

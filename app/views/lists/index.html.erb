@@ -3,15 +3,16 @@
     <div class="col-xs-4 col-md-4">
       <h1>My Lists</h1>
 
-      <table>
+      <table class="table table-hover table-stripped">
         <thead>
           <tr>
-            <th colspan="3"></th>
+            <th colspan="10"></th>
           </tr>
           <tr>
-            <th> List Name | &nbsp</th>
-            <th> Status | &nbsp</th>
-            <th> Likes </th>
+            <th> List Name</th>
+            <th> Status</th>
+            <th> Likes</th>
+            <th> Created at</th>
           </tr>
         </thead>
 
@@ -21,15 +22,18 @@
               <td><%= list.name %> </td>
               <td><%= list.active ? "active": "inacative" %> </td>
               <td><%= list.votes_count || 0 %> </td>
+              <td><%= list.created_at %> </td>
               <td><%= link_to 'Show', user_list_path(id: list.id) %></td>
               <td><%= link_to 'Edit', edit_user_list_path(id: list.id) if list.user == current_user %></td>
-              <td><% if current_user.likes?(list) %>
-                    <%= link_to 'Unlike', user_list_vote_path(list_id: list.id), method: :delete %> 
-                  <% end %>
+              <td>
+                <% if current_user.likes?(list) %>
+                  <%= link_to 'Unlike', user_list_vote_path(list_id: list.id), method: :delete %> 
+                <% end %>
               </td>
-              <td><% if !current_user.likes?(list) %>
+              <td>
+                <% if !current_user.likes?(list) %>
                   <%= link_to 'Like', user_list_vote_path(list_id: list.id), method: :post%>
-                  <% end %> 
+                <% end %> 
               </td>
               <td><%= link_to 'Delete', user_list_path(id: list.id), method: :delete, data: { confirm: 'Are you sure?' } if list.user == current_user%></td>
             </tr>
