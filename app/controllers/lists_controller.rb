@@ -1,4 +1,6 @@
 class ListsController < ApplicationController
+  helper_method :sort_column, :sort_direction
+
   before_action :set_list, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :list_owner!, except: [:index, :show, :create, :new]
@@ -6,7 +8,7 @@ class ListsController < ApplicationController
   # GET /users/1/lists
   def index
     @user  = User.find(params[:user_id])
-    @lists = @user.lists.order('created_at ASC')
+    @lists = @user.lists.order(sort_column + ' ' + sort_direction)
   end
 
   # GET /users/1/lists/1
@@ -67,5 +69,13 @@ class ListsController < ApplicationController
       unless @list.user == current_user
         redirect_to root_path, alert: 'You are not authorized to reach this list resource!'
       end
+    end
+
+    def sort_column
+      List.column_names.include?(params[:sort]) ? params[:sort] : 'created_at'
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ?  params[:direction] : 'desc'
     end
 end

@@ -68,7 +68,7 @@ Contributing
 Contributing involves:
 1) Reporting issues
 2) Fixing bugs
-3) Implemented features
+3) Implementing features
 Feel free to contribute any way you like! You only need to: 
 1) Clone the project locally with ```git clone https://github.com/apapamichalis/lists4skroutz```
 2) Create a local branch with ```git checkout -b descriptive-branch-name```

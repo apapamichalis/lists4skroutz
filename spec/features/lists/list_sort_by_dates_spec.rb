@@ -3,14 +3,16 @@ Warden.test_mode!
 
 # Feature: Registered user has his lists sorted by date
 #   As a registered user
-#   I want my lists sorted by date by default
-#   So I can see the last created first
+#   I want my lists sorted by date 
+#   So I can see the last or the first created first
 feature 'Lists sort by date', :type => :feature do
 
   # Scenario: User visits lists index
   #   Given I am signed in
   #   When I visit my lists index page
   #   Then I see my lists sorted by date (newest first)
+  #   And I click on 'Created at'
+  #   And I see my lists sorted by date (oldest first)
   scenario 'visits index page' do
     user =  FactoryGirl.create(:user)
     list1 = FactoryGirl.create(:list, user: user, created_at: 1.day.ago)
@@ -23,10 +25,17 @@ feature 'Lists sort by date', :type => :feature do
       fill_in 'user_password', with: user.password
     end
     click_button 'Sign in'
+    
     click_link 'My Lists'
     expect(page).to have_content('My Lists'), count:2
     expect(page).to have_content(list1.name)
     expect(page.body.index(list1.name)).to be < page.body.index(list2.name)
     expect(page.body.index(list3.name)).to be < page.body.index(list2.name)
+    
+    click_link 'Created at'
+    expect(page).to have_content('My Lists'), count:2
+    expect(page).to have_content(list1.name)
+    expect(page.body.index(list1.name)).to be > page.body.index(list2.name)
+    expect(page.body.index(list3.name)).to be > page.body.index(list2.name)
   end
 end
