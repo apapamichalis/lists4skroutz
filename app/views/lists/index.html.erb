@@ -42,7 +42,11 @@
                   <%= link_to 'Like', user_list_vote_path(list_id: list.id), method: :post%>
                 <% end %> 
               </td>
+<<<<<<< Updated upstream
               <td><%= link_to 'Delete', user_list_path(id: list.id), method: :delete, data: { confirm: 'Are you sure?' } if list.user == current_user%></td>
+=======
+              <td><%= link_to raw('<i class="fa fa-times-circle"  aria-hidden="true"></i>'), user_list_path(id: list.id),class: "btn btn-primary delete", style: 'color:#FFFFFF;', method: :delete, data: { confirm: 'Are you sure?' } if list.user == current_user%></td>
+>>>>>>> Stashed changes
             </tr>
           <% end %>
         </tbody>
