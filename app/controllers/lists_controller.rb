@@ -11,6 +11,7 @@ class ListsController < ApplicationController
     @lists = @user.lists
       .search(params[:search])
       .order(sort_column + ' ' + sort_direction)
+      .paginate(page: params[:page], per_page:10)
   end
 
   # GET /users/1/lists/1
