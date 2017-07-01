@@ -41,4 +41,10 @@ RSpec.describe List, type: :model do
     expect(@list.active).to match false
   end
 
+  it "gets deleted along with its owner" do 
+    expect{
+      @user.destroy
+    }.to change(List.all, :count).by(-1)
+  end
+
 end

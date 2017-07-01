@@ -5,8 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-user = CreateAdminService.new.call
-puts 'CREATED ADMIN USER: ' << user.email
+#user = CreateAdminService.new.call
+#puts 'CREATED ADMIN USER: ' << user.email
 
 # Create 50 unique users. Each user has 50 lists
 50.times do 
