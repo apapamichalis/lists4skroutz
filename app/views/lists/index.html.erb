@@ -42,39 +42,29 @@
             <th> <%= sortable 'created_at', 'Created at' %></th> 
           </tr>
         </thead>
-
         <tbody>
           <% @lists.each do |list| %>
             <tr>
-              <td><%= list.name %> </td>
+              <td><%= link_to list.name, (list.user == current_user) ? edit_user_list_path(id: list.id) : user_list_path(id: list.id) %> </td>
               <td><%= list.active ? "active": "inacative" %> </td>
               <td><%= list.votes_count || 0 %> </td>
               <td><%= list.created_at %> </td>
-              <td><%= link_to 'Show', user_list_path(id: list.id) ,class: "btn btn-primary", style: 'color:#FFFFFF;'%></td>
               <td>
                 <% if current_user.likes?(list) %>
                   <%= link_to raw('<i class="fa fa-thumbs-up" style="color:black;"  aria-hidden="true"></i>') , user_list_vote_path(list_id: list.id), method: :delete,class: "btn btn-default"   %>
-                
                 <% end %>
-             
                 <% if !current_user.likes?(list) %>
                   <%= link_to raw('<i class="fa fa-thumbs-up" style="color:white;" aria-hidden="true"></i>'), user_list_vote_path(list_id: list.id), method: :post,class: "btn btn-primary" %>
-                  
                 <% end %> 
               </td>
               <td><%= link_to raw('<i class="fa fa-times-circle"  aria-hidden="true"></i>'), user_list_path(id: list.id),class: "btn btn-primary", style: 'color:#FFFFFF;', method: :delete, data: { confirm: 'Are you sure?' } if list.user == current_user%></td>
-               <td><%= link_to 'Edit', edit_user_list_path(id: list.id),class: "btn btn-primary", style: 'color:#FFFFFF;' if list.user == current_user %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
-
       <%= will_paginate @lists, :previous_label => '<i class="fa fa-arrow-left" aria-hidden="true"></i>', :next_label => '<i class="fa fa-arrow-right" aria-hidden="true"></i>' %>
       </div>
- 
   <br>
-
-
 </div>
 
 
