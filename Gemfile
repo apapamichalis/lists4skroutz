@@ -19,7 +19,6 @@ gem 'bootstrap-will_paginate', '1.0.0'
 
 group :development, :test do
   gem 'byebug', platform: :mri
-
   gem 'better_errors'
   gem 'guard-bundler'
   gem 'guard-rails'
