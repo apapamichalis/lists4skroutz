@@ -1,5 +1,16 @@
 <h1>Editing List</h1>
 <div class="col-md-4">
+
+ <div>
+    <h3>Add Product</h3>
+ <p> 
+                <%= form_tag user_list_listproducts_path(user_id: @list.user.id,list_id: @list.id), method: :post do %>
+                <%= text_field_tag :search, params[:search], placeholder: "add product" %>
+                <%= submit_tag "Add" %>
+                <% end %>
+            </p>
+
+    </div>
   <%= form_for(@list, url: user_list_path(@list)) do |f| %>
     <% if @list.errors.any? %>
       <div id="error_explanation">
@@ -20,10 +31,15 @@
       List Active:
       <%= f.check_box :active, label: "List Active" %>
     </div>
+
+
     <div class="actions">
       <%= f.submit "Update List"%>
     </div>
   <% end %>
+
+
+
 
   <%= link_to 'Back', user_lists_path %>
 </div>

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resource :listproducts , only: [:create, :destroy]
     end
   end
-  post 'sku/',    to: 'sku#find', as: 'sku_find'
+ # post 'sku/',    to: 'sku#find', as: 'sku_find'
   get  'sku/:id', to: 'sku#show', as: 'sku_show'
+
 end
