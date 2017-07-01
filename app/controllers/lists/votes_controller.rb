@@ -4,12 +4,12 @@ class Lists::VotesController < ApplicationController
 
   def create
     @list.votes.where(user_id: current_user.id).first_or_create
-    redirect_to user_list_path(@list, user_id: @list.user.id)
+    redirect_to user_lists_path(@list.user.id)
   end
 
   def destroy
     @list.votes.where(user_id: current_user.id).destroy_all
-    redirect_to user_list_path(@list, user_id: @list.user.id)
+    redirect_to user_lists_path(@list.user.id)
   end
 
   private
