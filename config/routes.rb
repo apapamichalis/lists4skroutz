@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :users do 
     resources :lists do
       resource :vote , module: :lists
+      resource :listproducts , only: [:create, :destroy]
     end
   end
   post 'sku/',    to: 'sku#find', as: 'sku_find'
