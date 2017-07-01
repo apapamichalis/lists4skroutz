@@ -32,12 +32,12 @@ class ListproductsController < ApplicationController
   private
     def userexists
       if current_user && User.find_by(id: current_user.id)
-      
+      end
     end
     def currentUserOwnsList
       @list = List.find(params[:list_id])
       if @list.user == current_user
-      
+      end
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def listproduct_params

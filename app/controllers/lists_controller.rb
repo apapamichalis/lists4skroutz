@@ -25,7 +25,9 @@ class ListsController < ApplicationController
 
   # GET /users/1/lists/1/edit
   def edit
+      
       redirect_to root_path and return unless @list.user == current_user
+      @listproducts = @list.listproducts
   end
 
   # POST /users/1/lists
