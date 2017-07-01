@@ -50,16 +50,25 @@
             <th> Price</th>
           </tr>
         </thead>
-<%@listproducts=@list.listproducts%>
+<%@listproducts=@list.listproducts
+@sum=0 %>
         <tbody>
           <% @listproducts.each do |listProduct| %>
           <% @sku = skroutz_client.skus.find(listProduct.skuid)%>
             <tr>
              <td><%=  @sku.display_name %> </td>
               <td><%=  @sku.price_min %> </td>
-            
+  <td><%= link_to raw('<i class="fa fa-times-circle"  aria-hidden="true"></i>'), user_list_listproducts_path(user_id: @list.user.id,list_id: @list.id,skuid: listProduct.skuid),class: "btn btn-primary delete", style: 'color:#FFFFFF;', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <%@sum=@sum+@sku.price_min %>
             </tr>
           <% end %>
+          <tr>
+          <td>
+          Total :
+          </td>
+          <td><%=  @sum %> </td>
+
+          </tr>
         </tbody>
       </table>
   </div>
