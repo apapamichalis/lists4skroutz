@@ -53,6 +53,8 @@ feature 'Lists search', :type => :feature do
   #   And I visit an other user's lists page
   #   And I search by list name
   #   And I find the lists I am looking for
+  #   And I search without search term
+  #   And I have all of the user's lists returned
   scenario "in other user's lists index page" do
     visit root_path
     click_link 'Sign in'
@@ -62,6 +64,10 @@ feature 'Lists search', :type => :feature do
     end
     click_button 'Sign in'
     
+    click_link 'My Lists'
+    expect(page).to have_content(@list1.name)
+    expect(page).to have_content(@list2.name)
+
     click_link 'Users'
     click_link @other_user.email
     expect(page).to have_content('My Lists'), count:2
@@ -71,10 +77,14 @@ feature 'Lists search', :type => :feature do
     expect(page).to have_content(@list4.name)
 
     fill_in 'search', with: @list3.name
-
     click_button 'Search'
     expect(page).to have_content(@list3.name)
     expect(page).not_to have_content(@list4.name)
+
+    fill_in 'search', with: ''
+    click_button 'Search'
+    expect(page).to have_content(@list3.name)
+    expect(page).to have_content(@list4.name)
   end
 
 end

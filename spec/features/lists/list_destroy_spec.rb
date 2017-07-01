@@ -24,7 +24,9 @@ feature "List destroy", :type => :feature do
     click_button "Sign in"
     click_link "My Lists"
     expect {
-      click_link "Delete"
+      within '#delete' do
+        click_link_or_button
+      end
     }.to change(List, :count).by(-1)
     expect(page).to have_content 'List was successfully destroyed.', count: 1
   end
