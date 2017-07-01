@@ -29,4 +29,20 @@ RSpec.describe Vote, type: :model do
     )
     expect(vote).not_to be_valid
   end
+
+  it "gets destroyed with list" do 
+    vote = Vote.create(
+      user: @user,
+      list: @list
+    )
+    expect{@list.destroy}.to change(Vote.all, :count).by(-1)
+  end
+
+  it "gets destroyed with user" do 
+    vote = Vote.create(
+      user: @user,
+      list: @list
+    )
+    expect{@user.destroy}.to change(Vote.all, :count).by(-1)
+  end
 end
