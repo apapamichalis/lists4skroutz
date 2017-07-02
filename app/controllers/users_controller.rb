@@ -17,5 +17,17 @@ class UsersController < ApplicationController
       redirect_to new_user_session_path, :alert => "Access denied."  
     end
   end
+  def followees
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.followees.paginate(page: params[:page])
+    render 'show_follow'
+  end
 
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
+  end
 end

@@ -1,0 +1,22 @@
+<h1> Followers <h1/>
+<h3><%= @title %></h3>
+ <div class="column">
+      <table class="table">
+        <tbody>
+          <% @users.each do |user| %>
+            
+            <tr>
+              <%= render user %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+        <div class="user_avatars">
+          <% @users.each do |user| %>
+            <%= link_to gravatar_for(user, size: 30), user %>
+          <% end %>
+        </div>
+      
+ <%= link_to 'Back', users_path %>
