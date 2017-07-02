@@ -11,11 +11,15 @@ RSpec.describe List, type: :model do
   end
 
   it "is invalid without a user" do 
-    expect(FactoryGirl.create(:list, name: 'Yet another list').not_to be_valid
+    list = FactoryGirl.build(:list, name: 'Yet another list', user: nil)
+    list.valid?
+    expect(list).not_to be_valid
   end
 
   it "is invalid without a name" do 
-    expect(FactoryGirl.create(:list, user: @user)).not_to be_valid
+    list = FactoryGirl.build(:list, name: nil, user: @user)
+    list.valid?
+    expect(list).not_to be_valid
   end
 
   it "does not allow duplicate list names per user" do 
@@ -31,7 +35,7 @@ RSpec.describe List, type: :model do
     expect(other_list).to be_valid
   end
 
-    it "returns its name as a string" do 
+  it "returns its name as a string" do 
     expect(@list.name).to match "Test List"
   end
 
