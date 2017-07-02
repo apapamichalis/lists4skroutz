@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def getSkouId(link)
-    return link[/(?<=\/(c|s)\/)\w+/]
+    return link[/(?<=\/(s)\/)\w+/]
   end
   protected
 
