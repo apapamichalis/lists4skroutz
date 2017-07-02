@@ -3,20 +3,21 @@ class ListproductsController < ApplicationController
   before_action :authenticate_user!
 
   def create
+
     begin
+
       @sku = skroutz_client.skus.find(find(params[:search]))
+      @listproduct = Listproduct.new(list_id: params[:list_id],skuid: @sku.id)
+      if @listproduct.save
+        redirect_to edit_user_list_path(@list, user_id: current_user.id), notice: 'SKU added successfully.'
+      else
+        redirect_to edit_user_list_path(@list, user_id: current_user.id), warning: 'Failed to add SKU.'
+      end
     rescue
       #Exception if the product doesnt exist
-      redirect_to root_path
+      redirect_to edit_user_list_path(@list, user_id: current_user.id), notice: 'Failed to add SKU.'
     end
-
-    @listproduct = Listproduct.new(list_id: params[:list_id],skuid: @sku.id)
-
-    if @listproduct.save
-      redirect_to edit_user_list_path(@list, user_id: current_user.id), notice: 'SKU added successfully.'
-    else
-      redirect_to edit_user_list_path(@list, user_id: current_user.id), warning: 'Failed to add SKU.'
-    end
+   
   end
     
   def destroy
