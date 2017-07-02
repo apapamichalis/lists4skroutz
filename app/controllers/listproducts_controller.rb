@@ -1,14 +1,13 @@
 class ListproductsController < ApplicationController
   before_action :currentUserOwnsList, :userexists
-
-
+  before_action :authenticate_user!
 
   def create
     begin
-            @sku = skroutz_client.skus.find(find(params[:search]))
+      @sku = skroutz_client.skus.find(find(params[:search]))
     rescue
-          #Exception if the product doesnt exist
-           redirect_to root_path
+      #Exception if the product doesnt exist
+      redirect_to root_path
     end
 
     @listproduct = Listproduct.new(list_id: params[:list_id],skuid: @sku.id)
@@ -43,7 +42,4 @@ class ListproductsController < ApplicationController
     def listproduct_params
       params.fetch(:listproduct, {}).permit(:list_id, :skuid)
     end
-  
-
 end
-
