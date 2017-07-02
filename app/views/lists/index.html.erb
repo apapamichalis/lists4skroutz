@@ -57,7 +57,7 @@
                   <%= link_to raw('<i class="fa fa-thumbs-up" style="color:white;" aria-hidden="true"></i>'), user_list_vote_path(list_id: list.id), method: :post,class: "btn btn-primary" %>
                 <% end %> 
               </td>
-              <td><%= link_to raw('<i class="fa fa-times-circle"  aria-hidden="true"></i>'), user_list_path(id: list.id),class: "btn btn-primary delete", style: 'color:#FFFFFF;', method: :delete, data: { confirm: 'Are you sure?' } if list.user == current_user%></td>
+              <td class="delete-btn"><%= link_to raw('<i class="fa fa-times-circle"  aria-hidden="true"></i>'), user_list_path(id: list.id),class: "btn btn-primary", style: 'color:#FFFFFF;', method: :delete, data: { confirm: 'Are you sure?' } if list.user == current_user%></td>
             </tr>
           <% end %>
         </tbody>
