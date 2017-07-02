@@ -46,7 +46,7 @@
           <% @lists.each do |list| %>
             <tr>
               <td><%= link_to list.name, (list.user == current_user) ? edit_user_list_path(id: list.id) : user_list_path(id: list.id) %> </td>
-              <td><%= list.active ? "active": "inacative" %> </td>
+              <td><%= list.active ? "active": "inactive" %> </td>
               <td><%= list.votes_count || 0 %> </td>
               <td><%= list.created_at %> </td>
               <td>
