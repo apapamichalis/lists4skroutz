@@ -19,7 +19,7 @@ class ListproductsController < ApplicationController
   end
     
   def destroy
-    @listproduct = Listproduct.find_by(list_id: params[:list_id], skuid: params[:search])
+    @listproduct = Listproduct.find_by(list_id: params[:list_id], skuid: params[:skuid])
     redirect_to root_path and return unless @listproduct.list.user == current_user
     if @listproduct.destroy
       redirect_to edit_user_list_path(@list, user_id: current_user.id), notice: 'SKU removed successfully.'

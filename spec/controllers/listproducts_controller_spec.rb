@@ -53,7 +53,7 @@ RSpec.describe ListproductsController, type: :controller do
       it "destroys the listproduct" do 
         sign_in @user
         expect {
-          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+          delete :destroy, params: { skuid: @lp.skuid, user_id: @user.id, list_id: @list.id }
         }.to change(@list.listproducts, :count).by(-1)
       end
     end
@@ -62,13 +62,13 @@ RSpec.describe ListproductsController, type: :controller do
       it "does not destroy the listproduct" do
         sign_in @other_user
         expect {
-          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+          delete :destroy, params: { skuid: @lp.skuid, user_id: @user.id, list_id: @list.id }
         }.not_to change(@user.lists, :count)
       end
 
       it "redirects to the dashboard" do
         sign_in @other_user
-          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+          delete :destroy, params: { skuid: @lp.skuid, user_id: @user.id, list_id: @list.id }
         expect(response).to redirect_to root_path
       end
     end
@@ -76,12 +76,12 @@ RSpec.describe ListproductsController, type: :controller do
     context "as a guest" do 
       it "does not destroy the listproduct" do 
         expect {
-          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+          delete :destroy, params: { skuid: @lp.skuid, user_id: @user.id, list_id: @list.id }
         }.not_to change(@user.lists, :count)
       end
 
       it "redirects to sign in" do 
-          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+          delete :destroy, params: { skuid: @lp.skuid, user_id: @user.id, list_id: @list.id }
         expect(response).to redirect_to new_user_session_path
       end
     end
