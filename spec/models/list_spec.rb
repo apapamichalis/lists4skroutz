@@ -6,6 +6,18 @@ RSpec.describe List, type: :model do
     @list = @user.lists.create(name: "Test List")
   end
 
+  it "is valid with a user and a name" do 
+    expect(FactoryGirl.create(:list, name: 'Yet another list', user: @user)).to be_valid
+  end
+
+  it "is invalid without a user" do 
+    expect(FactoryGirl.create(:list, name: 'Yet another list').not_to be_valid
+  end
+
+  it "is invalid without a name" do 
+    expect(FactoryGirl.create(:list, user: @user)).not_to be_valid
+  end
+
   it "does not allow duplicate list names per user" do 
     other_list = @user.lists.build(name: "Test List")
     other_list.valid?
