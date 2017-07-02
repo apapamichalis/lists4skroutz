@@ -36,9 +36,9 @@
             <th colspan="10"></th>
           </tr>
           <tr>
-            <th> List Name</th>
+            <th> <%= sortable 'name', 'List Name' %></th>
             <th> Status</th>
-            <th> Likes</th>
+            <th> <%= sortable 'votes_count', 'Likes' %></th>
             <th> <%= sortable 'created_at', 'Created at' %></th> 
           </tr>
         </thead>
