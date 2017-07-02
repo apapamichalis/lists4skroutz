@@ -20,7 +20,8 @@ class ListproductsController < ApplicationController
   end
     
   def destroy
-    @listproduct = Listproduct.find_by(list_id: listproduct_params[:list_id], skuid: listproduct_params[:skuid])
+    @listproduct = Listproduct.find_by(list_id: params[:list_id], skuid: params[:search])
+    redirect_to root_path and return unless @listproduct.list.user == current_user
     if @listproduct.destroy
       redirect_to edit_user_list_path(@list, user_id: current_user.id), notice: 'SKU removed successfully.'
     else
@@ -40,6 +41,6 @@ class ListproductsController < ApplicationController
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def listproduct_params
-      params.fetch(:listproduct, {}).permit(:list_id, :skuid)
+      params.fetch(:listproduct, {}).permit(:list_id, :skuid, :search)
     end
 end

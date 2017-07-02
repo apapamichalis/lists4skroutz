@@ -5,13 +5,11 @@ RSpec.describe ListproductsController, type: :controller do
     @user       = FactoryGirl.create(:user)
     @other_user = FactoryGirl.create(:user, email: "otheruser@example.com")
     @list       = @user.lists.create(name: "A Test List")
-    @other_list = @other_user.lists.create(name: "Other Test List")
     @lp         = @list.listproducts.create(skuid: 404)
   end
 
-
   describe "#create" do 
-    context "as an authenticated user" do 
+    context "as an authorized user" do 
       context "with valid attributes" do 
         it "adds a listproduct" do 
           sign_in @user
@@ -20,21 +18,14 @@ RSpec.describe ListproductsController, type: :controller do
           }.to change(@list.listproducts, :count).by(1)
         end
       end
+    end
 
-      context "with invalid attrbutes" do 
-        it "does not add a listproduct to another user's list" do
-          sign_in @other_user
-          expect {
-            post :create, params: { search: 32222, user_id: @user.id, list_id: @list.id }
-          }.to_not change(@user.lists, :count)
-        end
-
-        pending "does not add a listproduct without an sku" do 
-          sign_in @user
-          expect {
-            post :create, params: { search: nil, user_id: @user.id, list_id: @list.id }
-          }.to_not change(@user.lists, :count)
-        end
+    context "as an unauthorized user" do 
+      it "does not add a listproduct" do
+        sign_in @other_user
+        expect {
+          post :create, params: { search: 32222, user_id: @user.id, list_id: @list.id }
+        }.to_not change(@user.lists, :count)
       end
     end
 
@@ -53,6 +44,45 @@ RSpec.describe ListproductsController, type: :controller do
         expect {
           post :create, params: { search: 32222, user_id: @user.id, list_id: @list.id }
         }.to_not change(@user.lists, :count)
+      end
+    end
+  end
+
+  describe "#destroy" do 
+    context "as an authorized user" do 
+      it "destroys the listproduct" do 
+        sign_in @user
+        expect {
+          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+        }.to change(@list.listproducts, :count).by(-1)
+      end
+    end
+
+    context "as an unauthorized user" do 
+      it "does not destroy the listproduct" do
+        sign_in @other_user
+        expect {
+          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+        }.not_to change(@user.lists, :count)
+      end
+
+      it "redirects to the dashboard" do
+        sign_in @other_user
+          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+        expect(response).to redirect_to root_path
+      end
+    end
+
+    context "as a guest" do 
+      it "does not destroy the listproduct" do 
+        expect {
+          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+        }.not_to change(@user.lists, :count)
+      end
+
+      it "redirects to sign in" do 
+          delete :destroy, params: { search: @lp.skuid, user_id: @user.id, list_id: @list.id }
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
