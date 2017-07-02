@@ -5,7 +5,6 @@ class ListproductsController < ApplicationController
   def create
 
     begin
-
       @sku = skroutz_client.skus.find(find(params[:search]))
       @listproduct = Listproduct.new(list_id: params[:list_id],skuid: @sku.id)
       if @listproduct.save
@@ -17,7 +16,6 @@ class ListproductsController < ApplicationController
       #Exception if the product doesnt exist
       redirect_to edit_user_list_path(@list, user_id: current_user.id), notice: 'Failed to add SKU.'
     end
-   
   end
     
   def destroy
