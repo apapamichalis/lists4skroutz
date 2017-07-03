@@ -36,7 +36,6 @@ feature 'User profile page', :devise do
     Capybara.current_session.driver.header 'Referer', root_path
     visit user_path(other_user)
     expect(page).to have_content list.name
-    expect(page).not_to have_content user.name
     expect(page).not_to have_content user.email
   end
 end

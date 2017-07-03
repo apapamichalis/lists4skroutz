@@ -15,6 +15,13 @@
         <%= render 'layouts/nav_links_for_auth' %>
         <%= render 'layouts/navigation_links' %>
       </ul>
+      <div class="pull-right text-center" style="color:white; "> Welcome, 
+        <% if current_user %>
+          <%= link_to current_user.name,user_path(current_user), style:'color:white;'%> 
+        <% else %>
+          Guest!
+        <% end %>
+      </div>
     </div>
   </div>
 </nav>
