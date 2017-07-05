@@ -11,4 +11,13 @@ Rails.application.routes.draw do
  # post 'sku/',    to: 'sku#find', as: 'sku_find'
   get  'sku/:id', to: 'sku#show', as: 'sku_show'
 
+ # Followers - Followees Relationships 
+  resources :users do
+    member do
+      get :followees, :followers
+    end
+  end
+  resources :relationships,       only: [:create, :destroy]
+
+
 end
